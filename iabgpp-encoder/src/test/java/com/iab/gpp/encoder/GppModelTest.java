@@ -28,6 +28,8 @@ import com.iab.gpp.encoder.section.UspNatV1;
 import com.iab.gpp.encoder.section.UspUtV1;
 import com.iab.gpp.encoder.section.UspV1;
 import com.iab.gpp.encoder.section.UspVaV1;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GppModelTest {
 
@@ -660,5 +662,35 @@ public class GppModelTest {
     Assertions.assertEquals(new ArrayList<>(List.of(21, 32, 81, 128, 173, 210, 238, 755)),
         decodedModel.getFieldValue(TcfEuV2.NAME, TcfEuV2Field.VENDOR_CONSENTS));
 
+  }
+  
+  @Test
+  public void testPerf() throws InvalidFieldException, EncodingException, DecodingException {
+      long start = System.currentTimeMillis();
+      int trials = 10000;
+      for (int i=0; i<trials; i++) {
+          testEncode1();
+          testEncode2();
+          testEncode3();
+          testDecode1();
+          testDecode2();
+          testDecode3();
+          testEncodeUspV1AndTcfEuV2AndTcfCaV1();
+          testDecodeUspv1AndTcfEuV2AndTcfCaV1();
+      }
+      System.out.println("TOOK: "+((System.currentTimeMillis()-start)/(float)trials) + "ms");
+  }
+  
+  public static final void main(String args[]) {
+      GppModelTest test = new GppModelTest();
+      try {
+          test.testPerf();
+      } catch (InvalidFieldException ex) {
+          Logger.getLogger(GppModelTest.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (EncodingException ex) {
+          Logger.getLogger(GppModelTest.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (DecodingException ex) {
+          Logger.getLogger(GppModelTest.class.getName()).log(Level.SEVERE, null, ex);
+      }
   }
 }

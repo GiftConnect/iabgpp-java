@@ -8,7 +8,6 @@ import com.iab.gpp.encoder.error.EncodingException;
 
 public class FixedIntegerListEncoder {
 
-  private static Pattern BITSTRING_VERIFICATION_PATTERN = Pattern.compile("^[0-1]*$", Pattern.CASE_INSENSITIVE);
 
   public static String encode(List<Integer> value, int elementBitStringLength, int numElements)
       throws EncodingException {
@@ -26,9 +25,6 @@ public class FixedIntegerListEncoder {
 
   public static List<Integer> decode(String bitString, int elementBitStringLength, int numElements)
       throws DecodingException {
-    if (!BITSTRING_VERIFICATION_PATTERN.matcher(bitString).matches()) {
-      throw new DecodingException("Undecodable FixedIntegerList '" + bitString + "'");
-    }
 
     if (bitString.length() > elementBitStringLength * numElements) {
       throw new DecodingException("Undecodable FixedIntegerList '" + bitString + "'");
@@ -37,7 +33,7 @@ public class FixedIntegerListEncoder {
     if (bitString.length() % elementBitStringLength != 0) {
       throw new DecodingException("Undecodable FixedIntegerList '" + bitString + "'");
     }
-
+    
     while (bitString.length() < elementBitStringLength * numElements) {
       bitString += "0";
     }

@@ -3,12 +3,10 @@ package com.iab.gpp.encoder.datatype.encoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 import com.iab.gpp.encoder.error.DecodingException;
 
 public class FixedIntegerRangeEncoder {
 
-  private static Pattern BITSTRING_VERIFICATION_PATTERN = Pattern.compile("^[0-1]*$", Pattern.CASE_INSENSITIVE);
 
   public static String encode(List<Integer> value) {
     Collections.sort(value);
@@ -27,23 +25,19 @@ public class FixedIntegerRangeEncoder {
       groupStartIndex = groupEndIndex + 1;
     }
 
-    String bitString = FixedIntegerEncoder.encode(groups.size(), 12);
+    StringBuilder bitString = new StringBuilder(FixedIntegerEncoder.encode(groups.size(), 12));
     for (int i = 0; i < groups.size(); i++) {
       if (groups.get(i).size() == 1) {
-        bitString += "0" + FixedIntegerEncoder.encode(groups.get(i).get(0), 16);
+        bitString.append("0").append(FixedIntegerEncoder.encode(groups.get(i).get(0), 16));
       } else {
-        bitString += "1" + FixedIntegerEncoder.encode(groups.get(i).get(0), 16)
-            + FixedIntegerEncoder.encode(groups.get(i).get(groups.get(i).size() - 1), 16);
+        bitString.append("1").append( FixedIntegerEncoder.encode(groups.get(i).get(0), 16)
+            + FixedIntegerEncoder.encode(groups.get(i).get(groups.get(i).size() - 1), 16));
       }
     }
-    return bitString;
+    return bitString.toString();
   }
 
   public static List<Integer> decode(String bitString) throws DecodingException {
-    if (!BITSTRING_VERIFICATION_PATTERN.matcher(bitString).matches() || bitString.length() < 12) {
-      throw new DecodingException("Undecodable FixedIntegerRange '" + bitString + "'");
-    }
-
     List<Integer> value = new ArrayList<>();
     int count = FixedIntegerEncoder.decode(bitString.substring(0, 12));
     int startIndex = 12;

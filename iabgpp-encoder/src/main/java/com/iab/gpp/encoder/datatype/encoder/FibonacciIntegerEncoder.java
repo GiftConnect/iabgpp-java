@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import com.iab.gpp.encoder.error.DecodingException;
 
 public class FibonacciIntegerEncoder {
-  private static Pattern BITSTRING_VERIFICATION_PATTERN = Pattern.compile("^[0-1]*$", Pattern.CASE_INSENSITIVE);
 
   public static String encode(int value) {
     List<Integer> fib = new ArrayList<Integer>();
@@ -24,26 +23,21 @@ public class FibonacciIntegerEncoder {
       }
     }
 
-    String bitString = "1";
+    StringBuilder bitString = new StringBuilder("1");
     for (int i = fib.size() - 1; i >= 0; i--) {
       int f = fib.get(i);
       if (value >= f) {
-        bitString = "1" + bitString;
+        bitString.append("1");
         value -= f;
       } else {
-        bitString = "0" + bitString;
+        bitString.append("0");
       }
     }
 
-    return bitString;
+    return bitString.reverse().toString();
   }
 
   public static int decode(String bitString) throws DecodingException {
-    if (!BITSTRING_VERIFICATION_PATTERN.matcher(bitString).matches() || bitString.length() < 2
-        || bitString.indexOf("11") != bitString.length() - 2) {
-      throw new DecodingException("Undecodable FibonacciInteger '" + bitString + "'");
-    }
-
     int value = 0;
 
     List<Integer> fib = new ArrayList<>();

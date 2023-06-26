@@ -27,19 +27,11 @@ public abstract class AbstractBase64UrlEncoder {
           {'7', 59}, {'8', 60}, {'9', 61}, {'-', 62}, {'_', 63}})
       .collect(Collectors.toMap(data -> (Character) data[0], data -> (Integer) data[1]));
 
-  private static Pattern BITSTRING_VERIFICATION_PATTERN = Pattern.compile("^[0-1]*$", Pattern.CASE_INSENSITIVE);
-  private static Pattern BASE64URL_VERIFICATION_PATTERN =
-      Pattern.compile("^[A-Za-z0-9\\-_]*$", Pattern.CASE_INSENSITIVE);
 
   public String encode(String bitString) throws EncodingException {
-    // should only be 0 or 1
-    if (!BITSTRING_VERIFICATION_PATTERN.matcher(bitString).matches()) {
-      throw new EncodingException("Unencodable Base64Url '" + bitString + "'");
-    }
-
     bitString = pad(bitString);
 
-    String str = "";
+    StringBuilder str = new StringBuilder();
 
     int index = 0;
     while (index <= bitString.length() - 6) {
@@ -48,31 +40,26 @@ public abstract class AbstractBase64UrlEncoder {
       try {
         int n = FixedIntegerEncoder.decode(s);
         Character c = AbstractBase64UrlEncoder.DICT.charAt(n);
-        str += c;
+        str.append(c);
         index += 6;
       } catch (DecodingException e) {
         throw new EncodingException("Unencodable Base64Url '" + bitString + "'");
       }
     }
 
-    return str;
+    return str.toString();
   }
 
   public String decode(String str) throws DecodingException {
-    // should contain only characters from the base64url set
-    if (!BASE64URL_VERIFICATION_PATTERN.matcher(str).matches()) {
-      throw new DecodingException("Undecodable Base64URL string");
-    }
-
-    String bitString = "";
+    StringBuilder bitString = new StringBuilder();
 
     for (int i = 0; i < str.length(); i++) {
       char c = str.charAt(i);
       Integer n = AbstractBase64UrlEncoder.REVERSE_DICT.get(c);
       String s = FixedIntegerEncoder.encode(n, 6);
-      bitString += s;
+      bitString.append(s);
     }
 
-    return bitString;
+    return bitString.toString();
   }
 }

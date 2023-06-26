@@ -348,4 +348,21 @@ public class TcfEuV2Test {
     Assertions.assertEquals(Arrays.asList(2, 6, 8, 12, 18, 23, 37, 42),
         tcfEuV2.getFieldValue("VendorLegitimateInterests"));
   }
+  
+  @Test
+  public void testPerf() throws InvalidFieldException, EncodingException, DecodingException {
+      long start = System.currentTimeMillis();
+      int trials = 10000;
+      for (int i=0; i<trials; i++) {
+          testEncode1();
+          testEncode2();
+          testDecode1();
+          testDecode2();
+          testDecode3();
+          testDecode4();
+          testDecode5();
+          testDecode6();
+      }
+      System.out.println("TOOK: "+((System.currentTimeMillis()-start)/(float)trials) + "ms");
+  }  
 }
