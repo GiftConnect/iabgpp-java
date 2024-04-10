@@ -4,46 +4,17 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.iabgpp</groupId>
+    <groupId>com.somoaudience</groupId>
     <artifactId>iabgpp-core</artifactId>
     <version>3.1.2-SNAPSHOT</version>
-    <name>IAB GPP Core Library</name>
-    <url>https://github.com/IABTechLabs/iabtcf-java</url>
-    <description>Encode and decode consent information with the IAB GPP v3.0.</description>
+    <name>GPP Core Library</name>
     <packaging>pom</packaging>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <name>Mayank Mishra</name>
-            <email>mayank@iabtechlab.com</email>
-            <organization>IAB Tech Lab</organization>
-            <organizationUrl>https://www.iabtechlab.com</organizationUrl>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:git@github.com:IABTechLabs/iabgpp-java.git</connection>
-        <developerConnection>scm:git:git@github.com:IABTechLabs/iabgpp-java.git</developerConnection>
-        <url>https://github.com/IABTechLabs/iabgpp-java</url>
-    </scm>
-
     <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>cons-github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/GiftConnect/iabgpp-java</url>
         </repository>
     </distributionManagement>
 
