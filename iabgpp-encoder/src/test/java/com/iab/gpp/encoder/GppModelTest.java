@@ -721,4 +721,11 @@ public class GppModelTest {
     gppModel.setFieldValue("uspv1", UspV1Field.NOTICE, 'Y');
     Assertions.assertEquals("DBABTA~1Y--", gppModel.encode());
   }
+
+  @Test
+  public void testDecodingNonGPPStringButTCFString() {
+    GppModel model = new GppModel("CP48G0AP48G0AEsACCPLAkEgAAAAAEPgAB5YAAAQaQD2F2K2kKFkPCmQWYAQBCijYEAhQAAAAkCBIAAgAUgQAgFIIAgAIFAAAAAAAAAQEgCQAAQABAAAIACgAAAAAAIAAAAAAAQQAAAAAIAAAAAAAAEAAAAAAAQAAAAIAABEhCAAQQAEAAAAAAAQAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAgAA");
+    Assertions.assertEquals(2, model.getFieldValue(TcfEuV2.NAME, TcfEuV2Field.VERSION));
+    Assertions.assertEquals(2, model.getFieldValue(TcfEuV2.NAME, TcfEuV2Field.CMP_VERSION));
+  }
 }
