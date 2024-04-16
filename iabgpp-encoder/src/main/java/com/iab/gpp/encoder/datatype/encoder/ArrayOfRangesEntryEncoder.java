@@ -2,9 +2,8 @@ package com.iab.gpp.encoder.datatype.encoder;
 
 import java.util.regex.Pattern;
 import com.iab.gpp.encoder.error.DecodingException;
-import com.iab.gpp.encoder.error.EncodingException;
 
-public class FixedLongEncoder {
+public class ArrayOfRangesEntryEncoder {
 
   private static Pattern BITSTRING_VERIFICATION_PATTERN = Pattern.compile("^[0-1]*$", Pattern.CASE_INSENSITIVE);
 
@@ -17,11 +16,6 @@ public class FixedLongEncoder {
         bitString = "0" + bitString;
       }
       value = value >> 1;
-    }
-
-    if (bitString.length() > bitStringLength) {
-      throw new EncodingException(
-          "Numeric value '" + value + "' is too large for a bit string length of '" + bitStringLength + "'");
     }
 
     while (bitString.length() < bitStringLength) {
